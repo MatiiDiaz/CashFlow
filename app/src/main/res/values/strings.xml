@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CashFlow</string>
+    <string name="presupuesto">Presupuesto:</string>
+    <string name="subpresupuesto">Subpresupuesto:</string>
+    <string name="fecha_inicio_periodo">Fecha para cerrar un periodo e iniciar otro:</string>
+    <string name="confirmar">Confirmar</string>
+</resources>
