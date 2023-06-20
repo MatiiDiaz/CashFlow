@@ -2,6 +2,8 @@
     <string name="app_name">CashFlow</string>
     <string name="presupuesto">Presupuesto:</string>
     <string name="subpresupuesto">Subpresupuesto:</string>
-    <string name="fecha_inicio_periodo">Fecha para cerrar un periodo e iniciar otro:</string>
+    <string name="fecha_inicio_periodo">Fecha para cambiar de periodo:</string>
     <string name="confirmar">Confirmar</string>
+    <string name="home">HOME</string>
+    <string name="ingresar_presupuesto_fecha">Ingrese su Presupuesto y Fecha de Pago</string>
 </resources>
