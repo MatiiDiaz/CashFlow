@@ -1,13 +1,19 @@
 package com.example.cashflow;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.res.Configuration;
+import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements PresupuestoDialog.PresupuestoDialogListener {
@@ -16,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
     private TextView tvFechaPresupuesto;
     private boolean presupuestoDefinido = false;
     private PresupuestoDialog presupuestoDialog;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (isDarkModeEnabled()) {
@@ -25,26 +32,35 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         tvPresupuesto = findViewById(R.id.tvPresupuesto);
         tvFechaPresupuesto = findViewById(R.id.tvFechaPresupuesto);
-        presupuestoDefinido = isPresupuestoDefinido();
+        presupuestoDefinido = true;
+
+
+        Button btnSettings = findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirConfiguracion();
+            }
+        });
 
         if (presupuestoDefinido) {
             // Mostrar la vista principal
-            setContentView(R.layout.activity_main);
+            mostrarVistaPrincipal();
         } else {
             // Mostrar el diálogo de presupuesto
             showPresupuestoDialog();
         }
     }
+
     private boolean isDarkModeEnabled() {
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
     }
-    private boolean isPresupuestoDefinido() {
-        // Lógica para verificar si el presupuesto está definido
-        return false; // Cambiar esto con tu propia lógica
-    }
+
     private void showPresupuestoDialog() {
         presupuestoDialog = new PresupuestoDialog();
         presupuestoDialog.setPresupuestoDialogListener(this);
@@ -52,19 +68,41 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
     }
 
     @Override
-    public void onPresupuestoConfirmed(int presupuesto, String fecha) {
+    public void onPresupuestoConfirmed(String presupuesto, Calendar fecha) {
         // Ocultar el diálogo de presupuesto
         presupuestoDialog.dismiss();
-        // Actualizar el valor del presupuesto en el TextView
-        tvPresupuesto.setText(String.valueOf(presupuesto));
 
-        // Obtener la fecha actual y formatearla
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        String fechaActual = dateFormat.format(calendar.getTime());
+        // Guardar el presupuesto y la fecha en las preferencias
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("key_presupuesto", presupuesto);
+        editor.putLong("fecha", fecha.getTimeInMillis());
+        editor.apply();
 
-        // Actualizar el valor de la fecha en el TextView
-        tvFechaPresupuesto.setText(fechaActual);
-        presupuestoDefinido = true;
+        // Mostrar la vista principal
+        mostrarVistaPrincipal();
     }
+
+    private void mostrarVistaPrincipal() {
+        String presupuesto = sharedPreferences.getString("key_presupuesto", "0");
+        long fechaMillis = sharedPreferences.getLong("fecha", 0);
+        Calendar fecha = Calendar.getInstance();
+        fecha.setTimeInMillis(fechaMillis);
+
+        // Actualizar los TextView con los valores guardados en las preferencias
+        tvPresupuesto.setText(String.valueOf(presupuesto));
+        tvFechaPresupuesto.setText(formatDate(fecha.getTime()));
+    }
+
+    //Get preferences
+    private String formatDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        return dateFormat.format(date);
+    }
+
+    private void abrirConfiguracion() {
+        // Aquí puedes iniciar una nueva actividad para la vista de configuración
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
@@ -19,12 +19,15 @@ import java.util.Locale;
 
 public class PresupuestoDialog extends DialogFragment {
 
+    private Calendar selectedDate;
+
     public interface PresupuestoDialogListener {
-        void onPresupuestoConfirmed(int presupuesto, String fecha);
+        void onPresupuestoConfirmed(String presupuesto, Calendar fecha);
     }
 
     private PresupuestoDialogListener listener;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -48,11 +51,10 @@ public class PresupuestoDialog extends DialogFragment {
                 .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int presupuesto = Integer.parseInt(editTextPresupuesto.getText().toString());
-                        String fecha = editTextFecha.getText().toString();
+                        String presupuesto = editTextPresupuesto.getText().toString();
 
                         if (listener != null) {
-                            listener.onPresupuestoConfirmed(presupuesto, fecha);
+                            listener.onPresupuestoConfirmed(presupuesto, selectedDate);
                         }
                     }
                 });
@@ -75,18 +77,15 @@ public class PresupuestoDialog extends DialogFragment {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                selectedDate = Calendar.getInstance();
+                selectedDate.set(year, monthOfYear, dayOfMonth);
                 // Actualizar el EditText con el día y el mes seleccionados
                 String fechaSeleccionada = String.format(Locale.getDefault(), "%02d-%02d", dayOfMonth, monthOfYear + 1);
                 editTextFecha.setText(fechaSeleccionada);
             }
         }, year, month, day);
 
-        // Configurar el DatePickerDialog para mostrar solo el spinner de día y mes
-        datePickerDialog.getDatePicker().setCalendarViewShown(false);
-        datePickerDialog.getDatePicker().setSpinnersShown(true);
-
         // Mostrar el DatePickerDialog
         datePickerDialog.show();
     }
-
 }

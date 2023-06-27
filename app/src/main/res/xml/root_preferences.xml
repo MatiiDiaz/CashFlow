@@ -1,0 +1,38 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/presupuesto_header">
+
+        <EditTextPreference
+            app:key="key_presupuesto"
+            app:title="Presupuesto"
+            app:summary="Establecer el presupuesto"
+            app:dialogTitle="Presupuesto"
+            app:dialogMessage="Ingrese el presupuesto"
+            app:defaultValue="0"/>
+
+        <ListPreference
+            app:defaultValue="5"
+            app:entries="@array/fecha_entries"
+            app:entryValues="@array/fecha_values"
+            app:key="key_fecha"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
