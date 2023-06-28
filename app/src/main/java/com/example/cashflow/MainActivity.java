@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -57,8 +58,16 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
     }
 
     private boolean isDarkModeEnabled() {
-        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean temaActivado = sharedPreferences.getBoolean("key_tema", false);
+        boolean darkActivado = sharedPreferences.getBoolean("key_dark", false);
+
+        if (temaActivado) {
+            return darkActivado; // Modo oscuro activado
+        } else {
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            return nightModeFlags == Configuration.UI_MODE_NIGHT_YES; // Utilizar el modo del sistema
+        }
     }
 
     private void showPresupuestoDialog() {
@@ -101,4 +110,30 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
+
+    private void updateViewFromPreferences() {
+        String presupuesto = sharedPreferences.getString("key_presupuesto", "0");
+        String fecha = sharedPreferences.getString("key_fecha", "5");
+
+        // Actualizar los TextView con los valores guardados en las preferencias
+        tvPresupuesto.setText(String.valueOf(presupuesto));
+        tvFechaPresupuesto.setText(String.valueOf(fecha));
+
+        // Verificar si el presupuesto es igual a 0 y mostrar el diálogo de presupuesto
+        if (presupuesto.equals("0")) {
+            showPresupuestoDialog();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateViewFromPreferences();
+        if (isDarkModeEnabled()) {
+            setTheme(R.style.Theme_Home_night);
+        } else {
+            setTheme(R.style.Theme_Home);
+        }
+    }
+
 }

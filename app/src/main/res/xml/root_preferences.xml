@@ -3,12 +3,12 @@
     <PreferenceCategory app:title="@string/presupuesto_header">
 
         <EditTextPreference
-            app:key="key_presupuesto"
-            app:title="Presupuesto"
-            app:summary="Establecer el presupuesto"
-            app:dialogTitle="Presupuesto"
+            app:defaultValue="0"
             app:dialogMessage="Ingrese el presupuesto"
-            app:defaultValue="0"/>
+            app:dialogTitle="Presupuesto"
+            app:key="key_presupuesto"
+            app:summary="Establecer el presupuesto"
+            app:title="Presupuesto" />
 
         <ListPreference
             app:defaultValue="5"
@@ -20,6 +20,38 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/theme_header">
+
+        <SwitchPreferenceCompat
+            app:key="key_tema"
+            app:summaryOff="@string/theme_off"
+            app:summaryOn="@string/theme_on"
+            app:title="@string/theme_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="key_tema"
+            app:key="key_dark"
+            app:summaryOff="@string/dark_off"
+            app:summaryOn="@string/dark_on"
+            app:title="@string/dark_title" />
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/messages_header">
+
+        <EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="reply"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+            app:key="reply"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
     <PreferenceCategory app:title="@string/sync_header">
 
         <SwitchPreferenceCompat

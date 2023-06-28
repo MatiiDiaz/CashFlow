@@ -13,11 +13,22 @@
 
     <!-- Preference Titles -->
     <string name="presupuesto_header">Presupuesto</string>
-    <string name="sync_header">Sync</string>
+    <string name="theme_header">Tema</string>
 
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Fecha de Pago</string>
+
+    <!-- Sync Preferences -->
+    <string name="theme_title">Utilizar tema del sistema</string>
+    <string name="theme_on">Elegir manualmente el tema</string>
+    <string name="theme_off">Aplicar tema utilizado por el sistema</string>
+    <string name="dark_title">Modo oscuro</string>
+    <string name="dark_on">Modo oscuro activado</string>
+    <string name="dark_off">Modo oscuro desactivado</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
