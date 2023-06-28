@@ -89,7 +89,7 @@ public class PresupuestoDialog extends DialogFragment {
                         String selectedOption = options[which];
 
                         // Actualizar el EditText con la opción seleccionada
-                        editTextFecha.setText(displayOptions[which]);
+                        editTextFecha.setText(options[which]);
 
                         // Obtener el día de la opción seleccionada
                         int day = Integer.parseInt(selectedOption);
