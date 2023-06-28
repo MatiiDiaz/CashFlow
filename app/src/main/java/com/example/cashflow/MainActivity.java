@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
     private boolean presupuestoDefinido = false;
     private PresupuestoDialog presupuestoDialog;
     SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (isDarkModeEnabled()) {
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         tvPresupuesto = findViewById(R.id.tvPresupuesto);
         tvFechaPresupuesto = findViewById(R.id.tvFechaPresupuesto);
         presupuestoDefinido = true;
-
 
         Button btnSettings = findViewById(R.id.btnSettings);
         btnSettings.setOnClickListener(new View.OnClickListener() {
@@ -68,14 +68,14 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
     }
 
     @Override
-    public void onPresupuestoConfirmed(String presupuesto, Calendar fecha) {
+    public void onPresupuestoConfirmed(String presupuesto, String fecha) {
         // Ocultar el diálogo de presupuesto
         presupuestoDialog.dismiss();
 
         // Guardar el presupuesto y la fecha en las preferencias
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("key_presupuesto", presupuesto);
-        editor.putLong("fecha", fecha.getTimeInMillis());
+        editor.putString("key_fecha", fecha);
         editor.apply();
 
         // Mostrar la vista principal
@@ -84,19 +84,16 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
 
     private void mostrarVistaPrincipal() {
         String presupuesto = sharedPreferences.getString("key_presupuesto", "0");
-        long fechaMillis = sharedPreferences.getLong("fecha", 0);
-        Calendar fecha = Calendar.getInstance();
-        fecha.setTimeInMillis(fechaMillis);
+        String fecha = sharedPreferences.getString("key_fecha", "5");
 
         // Actualizar los TextView con los valores guardados en las preferencias
         tvPresupuesto.setText(String.valueOf(presupuesto));
-        tvFechaPresupuesto.setText(formatDate(fecha.getTime()));
-    }
+        tvFechaPresupuesto.setText(String.valueOf(fecha));
 
-    //Get preferences
-    private String formatDate(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        return dateFormat.format(date);
+        // Verificar si el presupuesto es igual a 0 y mostrar el diálogo de presupuesto
+        if (presupuesto.equals("0")) {
+            showPresupuestoDialog();
+        }
     }
 
     private void abrirConfiguracion() {
@@ -104,5 +101,4 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
-
 }

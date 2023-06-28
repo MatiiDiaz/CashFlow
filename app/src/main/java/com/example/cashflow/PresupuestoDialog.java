@@ -1,13 +1,12 @@
 package com.example.cashflow;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -15,14 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 public class PresupuestoDialog extends DialogFragment {
 
     private Calendar selectedDate;
 
     public interface PresupuestoDialogListener {
-        void onPresupuestoConfirmed(String presupuesto, Calendar fecha);
+        void onPresupuestoConfirmed(String presupuesto, String fecha);
     }
 
     private PresupuestoDialogListener listener;
@@ -38,10 +36,17 @@ public class PresupuestoDialog extends DialogFragment {
         EditText editTextFecha = dialogView.findViewById(R.id.editTextFecha);
         ImageView imageViewCalendario = dialogView.findViewById(R.id.imageViewCalendario);
 
+        // Cambiar el comportamiento al hacer clic en el icono del calendario
         imageViewCalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePicker(editTextFecha);
+                showDateOptions(editTextFecha);
+            }
+        });
+        editTextFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateOptions(editTextFecha);
             }
         });
 
@@ -52,9 +57,15 @@ public class PresupuestoDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String presupuesto = editTextPresupuesto.getText().toString();
-
+                        if (presupuesto.isEmpty()) {
+                            presupuesto = "0";
+                        }
+                        String fecha = editTextFecha.getText().toString();
+                        if (fecha.isEmpty()) {
+                            fecha = "5"; // Establecer el valor predeterminado, "Pago el 5"
+                        }
                         if (listener != null) {
-                            listener.onPresupuestoConfirmed(presupuesto, selectedDate);
+                            listener.onPresupuestoConfirmed(presupuesto, fecha);
                         }
                     }
                 });
@@ -66,26 +77,37 @@ public class PresupuestoDialog extends DialogFragment {
         this.listener = listener;
     }
 
-    private void showDatePicker(final EditText editTextFecha) {
-        // Obtener la fecha actual
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+    private void showDateOptions(final EditText editTextFecha) {
+    final String[] options = {"5", "10", "15", "20", "25", "30"};
+    final String[] displayOptions = {"Pago el 5", "Pago el 10", "Pago el 15", "Pago el 20", "Pago el 25", "Pago el 30"};
 
-        // Crear el DatePickerDialog y configurarlo
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                selectedDate = Calendar.getInstance();
-                selectedDate.set(year, monthOfYear, dayOfMonth);
-                // Actualizar el EditText con el día y el mes seleccionados
-                String fechaSeleccionada = String.format(Locale.getDefault(), "%02d-%02d", dayOfMonth, monthOfYear + 1);
-                editTextFecha.setText(fechaSeleccionada);
-            }
-        }, year, month, day);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Seleccionar fecha")
+                .setItems(displayOptions, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Obtener la opción seleccionada
+                        String selectedOption = options[which];
 
-        // Mostrar el DatePickerDialog
-        datePickerDialog.show();
+                        // Actualizar el EditText con la opción seleccionada
+                        editTextFecha.setText(displayOptions[which]);
+
+                        // Obtener el día de la opción seleccionada
+                        int day = Integer.parseInt(selectedOption);
+                        // Establecer la fecha seleccionada
+                        selectedDate = Calendar.getInstance();
+                        selectedDate.set(Calendar.DAY_OF_MONTH, day);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Restablecer la fecha seleccionada
+                        selectedDate = null;
+                        editTextFecha.setText("");
+                    }
+                });
+
+        builder.create().show();
     }
+
 }
