@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DistribucionActivity">
+
+    <TextView
+        android:id="@+id/presupuestoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/arriendoEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Arriendo"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/presupuestoTextView" />
+
+    <TextView
+        android:id="@+id/arriendoPorcentajeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        app:layout_constraintBaseline_toBaselineOf="@+id/arriendoEditText"
+        app:layout_constraintStart_toEndOf="@+id/arriendoEditText" />
+
+    <EditText
+        android:id="@+id/alimentacionEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Alimentación"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arriendoEditText" />
+
+    <TextView
+        android:id="@+id/alimentacionPorcentajeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        app:layout_constraintBaseline_toBaselineOf="@+id/alimentacionEditText"
+        app:layout_constraintStart_toEndOf="@+id/alimentacionEditText" />
+
+    <EditText
+        android:id="@+id/transporteEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Transporte"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alimentacionEditText" />
+
+    <TextView
+        android:id="@+id/transportePorcentajeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        app:layout_constraintBaseline_toBaselineOf="@+id/transporteEditText"
+        app:layout_constraintStart_toEndOf="@+id/transporteEditText" />
+
+    <EditText
+        android:id="@+id/serviciosBasicosEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Servicios Basicos"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transporteEditText" />
+
+    <TextView
+        android:id="@+id/serviciosBasicosPorcentajeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        app:layout_constraintBaseline_toBaselineOf="@+id/serviciosBasicosEditText"
+        app:layout_constraintStart_toEndOf="@+id/serviciosBasicosEditText" />
+
+    <EditText
+        android:id="@+id/educacionEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Educacion"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serviciosBasicosEditText" />
+
+    <TextView
+        android:id="@+id/educacionPorcentajeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        app:layout_constraintBaseline_toBaselineOf="@+id/educacionEditText"
+        app:layout_constraintStart_toEndOf="@+id/educacionEditText" />
+
+    <EditText
+        android:id="@+id/deudasEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Deudas"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/educacionEditText" />
+
+    <TextView
+        android:id="@+id/deudasPorcentajeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        app:layout_constraintBaseline_toBaselineOf="@+id/deudasEditText"
+        app:layout_constraintStart_toEndOf="@+id/deudasEditText" />
+
+    <EditText
+        android:id="@+id/ahorrosInversionesEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Ahorros e Inversiones"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deudasEditText" />
+
+    <TextView
+        android:id="@+id/ahorrosInversionesPorcentajeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ahorrosInversionesEditText"
+        app:layout_constraintStart_toEndOf="@+id/ahorrosInversionesEditText" />
+
+    <Button
+        android:id="@+id/guardarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Guardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ahorrosInversionesEditText" />
+
+</LinearLayout>

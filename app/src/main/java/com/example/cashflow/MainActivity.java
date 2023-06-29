@@ -41,10 +41,17 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         presupuestoDefinido = true;
 
         Button btnSettings = findViewById(R.id.btnSettings);
+        Button btnPresupuesto = findViewById(R.id.btnPresupuesto);
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 abrirConfiguracion();
+            }
+        });
+        btnPresupuesto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirPresupuesto();
             }
         });
 
@@ -108,6 +115,11 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
     private void abrirConfiguracion() {
         // Aquí puedes iniciar una nueva actividad para la vista de configuración
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+    private void abrirPresupuesto() {
+        // Aquí puedes iniciar una nueva actividad para la vista de configuración
+        Intent intent = new Intent(MainActivity.this, DistribucionActivity.class);
         startActivity(intent);
     }
 
