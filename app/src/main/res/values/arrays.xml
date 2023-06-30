@@ -17,6 +17,15 @@
         <item>25</item>
         <item>30</item>
     </string-array>
+    <string-array name="categorias">
+        <item>Arriendo/Hipoteca</item>
+        <item>Alimentación</item>
+        <item>Transporte</item>
+        <item>Servicios Básicos</item>
+        <item>Educación</item>
+        <item>Deudas</item>
+        <item>Ahorro/Inversión</item>
+    </string-array>
     <!-- Reply Preference -->
     <string-array name="reply_entries">
         <item>Reply</item>

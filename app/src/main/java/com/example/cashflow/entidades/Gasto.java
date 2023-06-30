@@ -2,13 +2,14 @@ package com.example.cashflow.entidades;
 
 public class Gasto {
     private int id_gasto;
-    private String nombre_gasto, monto_gasto, fecha_gasto;
+    private String nombre_gasto, monto_gasto, fecha_gasto, categoria_gasto;
 
-    public Gasto(Integer id_gasto, String nombre_gasto, String monto_gasto, String fecha_gasto) {
+    public Gasto(Integer id_gasto, String nombre_gasto, String monto_gasto, String fecha_gasto, String categoria_gasto) {
         this.setId_gasto(id_gasto);
         this.setNombre_gasto(nombre_gasto);
         this.setMonto_gasto(monto_gasto);
         this.setFecha_gasto(fecha_gasto);
+        this.setCategoria_gasto(categoria_gasto);
     }
 
     public Gasto() {
@@ -46,4 +47,10 @@ public class Gasto {
     public void setFecha_gasto(String fecha_gasto) {
         this.fecha_gasto = fecha_gasto;
     }
+
+    public String getCategoria_gasto() {
+        return categoria_gasto;
+    }
+
+    public void setCategoria_gasto(String categoria_gasto) { this.categoria_gasto = categoria_gasto; }
 }

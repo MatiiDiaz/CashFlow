@@ -3,6 +3,7 @@ package com.example.cashflow;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     private void updateUI() {
         // Obtiene una referencia al ImageView de tu interfaz de usuario
         ImageView imageView = requireView().findViewById(R.id.imageView3);
-
         if (isDarkModeEnabled()) {
             imageView.setImageResource(R.drawable.ic_launcher);
         } else {

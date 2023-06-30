@@ -1,13 +1,23 @@
 package com.example.cashflow;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cashflow.database.DBGasto;
@@ -19,25 +29,84 @@ public class AnadirGastoActivity extends AppCompatActivity {
 
     EditText txtNombre, txtMonto;
     Button btn_guardar;
+    Spinner spnCategoria;
+    ImageView ivNuevoGasto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (isDarkModeEnabled()) {
+            setTheme(R.style.Theme_Home_night);
+        } else {
+            setTheme(R.style.Theme_Home);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anadir_gasto);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         // Obtener la fecha actual
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         txtNombre = findViewById(R.id.txtNombre);
         txtMonto = findViewById(R.id.txtMonto);
+        spnCategoria = findViewById(R.id.spnCategoria);
+        ivNuevoGasto = findViewById(R.id.ivNuevoGasto);
         btn_guardar = findViewById(R.id.btn_guardar);
+
+        spnCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String categoriaSeleccionada = parent.getItemAtPosition(position).toString();
+
+                // Actualizar la imagen en ImageView según la categoría seleccionada
+                switch (categoriaSeleccionada) {
+                    case "Arriendo/Hipoteca":
+                        ivNuevoGasto.setImageResource(R.drawable.house_fill);
+                        break;
+                    case "Alimentación":
+                        ivNuevoGasto.setImageResource(R.drawable.food_fill);
+                        break;
+                    case "Transporte":
+                        ivNuevoGasto.setImageResource(R.drawable.transport_fill);
+                        break;
+                    case "Servicios Básicos":
+                        ivNuevoGasto.setImageResource(R.drawable.water_fill);
+                        break;
+                    case "Educación":
+                        ivNuevoGasto.setImageResource(R.drawable.school_fill);
+                        break;
+                    case "Deudas":
+                        ivNuevoGasto.setImageResource(R.drawable.debt_fill);
+                        break;
+                    case "Ahorro/Inversión":
+                        ivNuevoGasto.setImageResource(R.drawable.savings_fill);
+                        break;
+                }
+                // Continúa con el resto de categorías y sus imágenes
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No se requiere ninguna acción si no se selecciona nada
+            }
+        });
+
 
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String fechaHoy = dateFormat.format(calendar.getTime());
+                String nombre = txtNombre.getText().toString();
+                String monto = txtMonto.getText().toString();
+                String categoria = spnCategoria.getSelectedItem().toString();
                 DBGasto dbGasto = new DBGasto(AnadirGastoActivity.this);
-                long id = dbGasto.insertarGasto(txtNombre.getText().toString(), txtMonto.getText().toString(), fechaHoy);
+                long id = dbGasto.insertarGasto(nombre, monto, fechaHoy, categoria);
                 if (id > 0){
                     Toast.makeText(AnadirGastoActivity.this, "Registro Guardado", Toast.LENGTH_LONG).show();
                     limpiar();
@@ -47,6 +116,27 @@ public class AnadirGastoActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isDarkModeEnabled() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean temaActivado = sharedPreferences.getBoolean("key_tema", false);
+        boolean darkActivado = sharedPreferences.getBoolean("key_dark", false);
+
+        if (temaActivado) {
+            return darkActivado; // Modo oscuro activado
+        } else {
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            return nightModeFlags == Configuration.UI_MODE_NIGHT_YES; // Utilizar el modo del sistema
+        }
     }
 
     private void limpiar(){

@@ -9,7 +9,12 @@
     <string name="ajustes">Ajustes</string>
     <string name="designed_by">Designed By Matias Diaz</string>
     <string name="copyright">© Copyright 2023–2023</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="titulo_ajustes">Ajustes</string>
+    <string name="titulo_añadir_gasto">Añadir Gasto</string>
+    <string name="nombre_gasto">Nombre Gasto</string>
+    <string name="monto_gasto">Monto Gasto</string>
+    <string name="guardar">Guardar</string>
+    <string name="seleccionar_categoria">Seleccionar Categoria</string>
 
     <!-- Preference Titles -->
     <string name="presupuesto_header">Presupuesto</string>

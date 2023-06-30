@@ -15,20 +15,12 @@
             android:name=".ListaGastosActivity"
             android:exported="false" />
         <activity
-            android:name=".AnadirGastoActivity"
-            android:exported="false"
-            android:parentActivityName=".ListaGastosActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListaGastosActivity"/>
-        </activity>
-        <activity
             android:name=".DistribucionActivity"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
-            android:label="@string/title_activity_settings"
+            android:label="@string/titulo_ajustes"
             android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".Presupuesto"
@@ -44,6 +36,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AnadirGastoActivity"
+            android:exported="false"
+            android:parentActivityName=".ListaGastosActivity"
+            android:theme="@style/Theme.AppCompat"
+            android:label="@string/titulo_añadir_gasto">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListaGastosActivity"/>
         </activity>
     </application>
 

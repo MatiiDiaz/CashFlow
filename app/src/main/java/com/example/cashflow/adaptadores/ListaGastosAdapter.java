@@ -1,8 +1,10 @@
 package com.example.cashflow.adaptadores;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,12 +14,18 @@ import com.example.cashflow.R;
 import com.example.cashflow.entidades.Gasto;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListaGastosAdapter extends RecyclerView.Adapter<ListaGastosAdapter.GastoViewHolder> {
 
     ArrayList<Gasto> listaGasto;
+    ArrayList<Gasto> listaOriginal;
     public ListaGastosAdapter(ArrayList<Gasto> listaGasto){
+
         this.listaGasto = listaGasto;
+        listaOriginal = new ArrayList<>();
+        listaOriginal.addAll(listaGasto);
     }
 
     @NonNull
@@ -32,6 +40,43 @@ public class ListaGastosAdapter extends RecyclerView.Adapter<ListaGastosAdapter.
         holder.tvNombre.setText(listaGasto.get(position).getNombre_gasto());
         holder.tvMonto.setText(listaGasto.get(position).getMonto_gasto());
         holder.tvFecha.setText(listaGasto.get(position).getFecha_gasto());
+        String categoriaSeleccionada = listaGasto.get(position).getCategoria_gasto();
+        switch (categoriaSeleccionada){
+            case "Arriendo/Hipoteca":
+                holder.ivGasto.setImageResource(R.drawable.house_fill);
+                break;
+            case "Alimentación":
+                holder.ivGasto.setImageResource(R.drawable.food_fill);
+                break;
+            case "Transporte":
+                holder.ivGasto.setImageResource(R.drawable.transport_fill);
+                break;
+            case "Servicios Básicos":
+                holder.ivGasto.setImageResource(R.drawable.water_fill);
+                break;
+            case "Educación":
+                holder.ivGasto.setImageResource(R.drawable.school_fill);
+                break;
+            case "Deudas":
+                holder.ivGasto.setImageResource(R.drawable.debt_fill);
+                break;
+            case "Ahorro/Inversión":
+                holder.ivGasto.setImageResource(R.drawable.savings_fill);
+                break;
+        }
+    }
+
+    public void filtrado(String svListaGasto){
+        int longitud = svListaGasto.length();
+        if (longitud == 0){
+            listaGasto.clear();
+            listaGasto.addAll(listaOriginal);
+        } else {
+            List<Gasto> coleccion = listaGasto.stream().filter(i -> i.getNombre_gasto().toLowerCase().contains(svListaGasto.toLowerCase())).collect(Collectors.toList());
+            listaGasto.clear();
+            listaGasto.addAll(coleccion);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -42,6 +87,7 @@ public class ListaGastosAdapter extends RecyclerView.Adapter<ListaGastosAdapter.
     public class GastoViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvNombre, tvMonto, tvFecha;
+        ImageView ivGasto;
 
         public GastoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -49,6 +95,7 @@ public class ListaGastosAdapter extends RecyclerView.Adapter<ListaGastosAdapter.
             tvNombre = itemView.findViewById(R.id.tvNombre);
             tvMonto = itemView.findViewById(R.id.tvMonto);
             tvFecha = itemView.findViewById(R.id.tvFecha);
+            ivGasto = itemView.findViewById(R.id.ivGasto);
         }
     }
 }

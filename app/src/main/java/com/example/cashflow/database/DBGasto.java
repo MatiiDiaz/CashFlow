@@ -20,7 +20,7 @@ public class DBGasto extends DBHelper {
         super(context);
         this.context = context;
     }
-    public long insertarGasto(String nombre, String monto, String fecha) {
+    public long insertarGasto(String nombre, String monto, String fecha, String categoria) {
         long id = 0;
         try {
             DBHelper dbHelper = new DBHelper(context);
@@ -30,6 +30,7 @@ public class DBGasto extends DBHelper {
             values.put("nombre_gasto", nombre);
             values.put("monto_gasto", monto);
             values.put("fecha_gasto", fecha);
+            values.put("categoria_gasto", categoria);
 
             id = database.insert(TABLE_GASTO, null, values);
         } catch (Exception ex) {
@@ -53,6 +54,7 @@ public class DBGasto extends DBHelper {
                 gasto.setNombre_gasto(cursorGasto.getString(1));
                 gasto.setMonto_gasto(cursorGasto.getString(2));
                 gasto.setFecha_gasto(cursorGasto.getString(3));
+                gasto.setCategoria_gasto(cursorGasto.getString(4));
                 listaGastos.add(gasto);
             } while (cursorGasto.moveToNext());
         }
@@ -74,6 +76,7 @@ public class DBGasto extends DBHelper {
             gasto.setNombre_gasto(cursorGasto.getString(1));
             gasto.setMonto_gasto(cursorGasto.getString(2));
             gasto.setFecha_gasto(cursorGasto.getString(3));
+            gasto.setCategoria_gasto(cursorGasto.getString(4));
         }
         cursorGasto.close();
         return gasto;

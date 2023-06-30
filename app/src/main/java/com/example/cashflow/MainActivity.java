@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
 
     private TextView tvPresupuesto;
     private TextView tvFechaPresupuesto;
-    private boolean presupuestoDefinido = false;
     private PresupuestoDialog presupuestoDialog;
     SharedPreferences sharedPreferences;
+    Boolean dialogo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         tvPresupuesto = findViewById(R.id.tvPresupuesto);
         tvFechaPresupuesto = findViewById(R.id.tvFechaPresupuesto);
-        presupuestoDefinido = true;
 
         ImageButton btnSettings = findViewById(R.id.btnSettings);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -69,13 +68,17 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
                 abrirConfiguracion();
             }
         });
-
-        if (presupuestoDefinido) {
-            // Mostrar la vista principal
-            mostrarVistaPrincipal();
-        } else {
+        String presupuesto = sharedPreferences.getString("key_presupuesto", "0");
+        if (presupuesto.equals("0") || presupuesto.isEmpty()) {
+            // Si el valor del presupuesto está vacío, se reemplaza por "0"
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("key_presupuesto", "0");
+            editor.apply();
             // Mostrar el diálogo de presupuesto
             showPresupuestoDialog();
+        } else {
+            // Mostrar la vista principal
+            mostrarVistaPrincipal();
         }
     }
 
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         presupuestoDialog = new PresupuestoDialog();
         presupuestoDialog.setPresupuestoDialogListener(this);
         presupuestoDialog.show(getSupportFragmentManager(), "PresupuestoDialog");
+        dialogo=true;
     }
 
     @Override
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         editor.putString("key_presupuesto", presupuesto);
         editor.putString("key_fecha", fecha);
         editor.apply();
-
+        dialogo = false;
         // Mostrar la vista principal
         mostrarVistaPrincipal();
     }
@@ -118,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         String fecha = sharedPreferences.getString("key_fecha", "5");
 
         // Actualizar los TextView con los valores guardados en las preferencias
-        tvPresupuesto.setText(String.valueOf(presupuesto));
-        tvFechaPresupuesto.setText(String.valueOf(fecha));
+        tvPresupuesto.setText(presupuesto);
+        tvFechaPresupuesto.setText(fecha);
 
         // Verificar si el presupuesto es igual a 0 y mostrar el diálogo de presupuesto
         if (presupuesto.equals("0")) {
@@ -138,11 +142,11 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         String fecha = sharedPreferences.getString("key_fecha", "5");
 
         // Actualizar los TextView con los valores guardados en las preferencias
-        tvPresupuesto.setText(String.valueOf(presupuesto));
-        tvFechaPresupuesto.setText(String.valueOf(fecha));
+        tvPresupuesto.setText(presupuesto);
+        tvFechaPresupuesto.setText(fecha);
 
         // Verificar si el presupuesto es igual a 0 y mostrar el diálogo de presupuesto
-        if (presupuesto.equals("0")) {
+        if ((presupuesto.equals("0") || presupuesto.isEmpty()) && !dialogo) {
             showPresupuestoDialog();
         }
     }

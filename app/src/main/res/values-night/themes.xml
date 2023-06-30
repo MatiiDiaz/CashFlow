@@ -16,7 +16,7 @@
     </style>
     <style name="Theme.Home_night" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/azul_marino</item>
+        <item name="colorPrimary">@color/verde_menta_2</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
