@@ -21,7 +21,7 @@
 
     <!-- Sync Preferences -->
     <string name="theme_title">Utilizar tema del sistema</string>
-    <string name="theme_on">Elegir manualmente el tema</string>
+    <string name="theme_on">Elegir manualmente el tema (Experimental: Puede producir fallos)</string>
     <string name="theme_off">Aplicar tema utilizado por el sistema</string>
     <string name="dark_title">Modo oscuro</string>
     <string name="dark_on">Modo oscuro activado</string>

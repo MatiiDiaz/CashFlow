@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_home"
+        android:icon="@drawable/home_fill"
+        android:title="Home"/>
+    <item
+        android:id="@+id/bottom_maps"
+        android:icon="@drawable/pin_drop_fill"
+        android:title="Maps"/>
+    <item
+        android:id="@+id/bottom_analytics"
+        android:icon="@drawable/analytics_fill"
+        android:title="Analytics"/>
+    <item
+        android:id="@+id/bottom_payments"
+        android:icon="@drawable/payments_fill"
+        android:title="Payments"/>
+
+</menu>

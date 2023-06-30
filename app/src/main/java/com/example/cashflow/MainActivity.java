@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,18 +43,30 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
         tvFechaPresupuesto = findViewById(R.id.tvFechaPresupuesto);
         presupuestoDefinido = true;
 
-        Button btnSettings = findViewById(R.id.btnSettings);
-        Button btnPresupuesto = findViewById(R.id.btnPresupuesto);
+        ImageButton btnSettings = findViewById(R.id.btnSettings);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.bottom_home:
+                    return true;
+                case R.id.bottom_analytics:
+                    startActivity(new Intent(getApplicationContext(), DistribucionActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_payments:
+                    startActivity(new Intent(getApplicationContext(), ListaGastosActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+            }
+            return false;
+        });
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 abrirConfiguracion();
-            }
-        });
-        btnPresupuesto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                abrirPresupuesto();
             }
         });
 
@@ -115,11 +130,6 @@ public class MainActivity extends AppCompatActivity implements PresupuestoDialog
     private void abrirConfiguracion() {
         // Aquí puedes iniciar una nueva actividad para la vista de configuración
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(intent);
-    }
-    private void abrirPresupuesto() {
-        // Aquí puedes iniciar una nueva actividad para la vista de configuración
-        Intent intent = new Intent(MainActivity.this, DistribucionActivity.class);
         startActivity(intent);
     }
 

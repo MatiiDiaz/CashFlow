@@ -1,6 +1,8 @@
 package com.example.cashflow;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class DistribucionActivity extends AppCompatActivity {
 
@@ -24,8 +28,34 @@ public class DistribucionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (isDarkModeEnabled()) {
+            setTheme(R.style.Theme_Home_night);
+        } else {
+            setTheme(R.style.Theme_Home);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_distribucion);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_analytics);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.bottom_analytics:
+                    return true;
+                case R.id.bottom_home:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_payments:
+                    startActivity(new Intent(getApplicationContext(), ListaGastosActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+            }
+            return false;
+        });
+
 
         // Obtener el presupuesto definido en las preferencias
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -81,15 +111,51 @@ public class DistribucionActivity extends AppCompatActivity {
         });
     }
 
+    private boolean isDarkModeEnabled() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean temaActivado = sharedPreferences.getBoolean("key_tema", false);
+        boolean darkActivado = sharedPreferences.getBoolean("key_dark", false);
+
+        if (temaActivado) {
+            return darkActivado; // Modo oscuro activado
+        } else {
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            return nightModeFlags == Configuration.UI_MODE_NIGHT_YES; // Utilizar el modo del sistema
+        }
+    }
+
     private void guardarValoresDistribucion() {
+        int arriendoTV = 0;
+        int alimentacionTV = 0;
+        int transporteTV = 0;
+        int serviciosBasicosTV = 0;
+        int educacionTV = 0;
+        int deudasTV = 0;
+        int ahorrosInversionesTV = 0;
         // Obtener los valores de distribución de los EditText
-        int arriendoTV = Integer.parseInt(arriendoEditText.getText().toString());
-        int alimentacionTV = Integer.parseInt(alimentacionEditText.getText().toString());
-        int transporteTV = Integer.parseInt(transporteEditText.getText().toString());
-        int serviciosBasicosTV = Integer.parseInt(serviciosBasicosEditText.getText().toString());
-        int educacionTV = Integer.parseInt(educacionEditText.getText().toString());
-        int deudasTV = Integer.parseInt(deudasEditText.getText().toString());
-        int ahorrosInversionesTV = Integer.parseInt(ahorrosInversionesEditText.getText().toString());
+        if (!arriendoEditText.getText().toString().equals("")){
+            arriendoTV = Math.min(Integer.parseInt(arriendoEditText.getText().toString()), 100);
+        }
+        if (!alimentacionEditText.getText().toString().equals("")){
+            alimentacionTV = Math.min(Integer.parseInt(alimentacionEditText.getText().toString()), 100);
+        }
+        if (!transporteEditText.getText().toString().equals("")){
+            transporteTV = Math.min(Integer.parseInt(transporteEditText.getText().toString()), 100);
+
+        }
+        if (!serviciosBasicosEditText.getText().toString().equals("")){
+            serviciosBasicosTV = Math.min(Integer.parseInt(serviciosBasicosEditText.getText().toString()), 100);
+        }
+        if (!educacionEditText.getText().toString().equals("")){
+            educacionTV = Math.min(Integer.parseInt(educacionEditText.getText().toString()), 100);
+
+        }
+        if (!deudasEditText.getText().toString().equals("")){
+            deudasTV = Math.min(Integer.parseInt(deudasEditText.getText().toString()), 100);
+        }
+        if (!ahorrosInversionesEditText.getText().toString().equals("")){
+            ahorrosInversionesTV = Math.min(Integer.parseInt(ahorrosInversionesEditText.getText().toString()), 100);
+        }
         // Obtén los demás valores de distribución de los EditText aquí
 
         // Guardar los valores de distribución en las preferencias

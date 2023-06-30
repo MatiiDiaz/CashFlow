@@ -12,6 +12,17 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".ListaGastosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AnadirGastoActivity"
+            android:exported="false"
+            android:parentActivityName=".ListaGastosActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListaGastosActivity"/>
+        </activity>
+        <activity
             android:name=".DistribucionActivity"
             android:exported="false" />
         <activity

@@ -8,5 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="azul_marino">#001F3F</color>
-    <color name="verde_menta">#00B894</color>
+    <color name="verde_menta">#1C9880</color>
+    <color name="verde_menta_2">#147562</color>
 </resources>

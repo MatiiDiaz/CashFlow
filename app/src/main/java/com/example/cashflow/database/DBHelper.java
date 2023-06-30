@@ -5,43 +5,35 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "cashflow.db";
-    private static final int DATABASE_VERSION = 1;
+import androidx.annotation.Nullable;
 
-    private static final String TABLE_NAME = "presupuesto";
-    private static final String COLUMN_MONTO = "monto";
-    private static final String COLUMN_FECHA = "fecha";
+public class DBHelper extends SQLiteOpenHelper {
+    private static final String DATABASE_NOMBRE = "cashflow.db";
+    private static final int DATABASE_VERSION = 2;
+
+    public static final String TABLE_GASTO = "gasto";
+    private static final String COLUMN_ID = "id_gasto";
+    private static final String COLUMN_NOMBRE = "nombre_gasto";
+    private static final String COLUMN_MONTO = "monto_gasto";
+    private static final String COLUMN_FECHA = "fecha_gasto";
 
     // Constructor
-    public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DBHelper(@Nullable Context context) {
+        super(context, DATABASE_NOMBRE, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        // Crear la tabla en la base de datos
-        String createTableQuery = "CREATE TABLE " + TABLE_NAME + " (" +
-                COLUMN_MONTO + " INTEGER, " +
-                COLUMN_FECHA + " TEXT)";
-        db.execSQL(createTableQuery);
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("CREATE TABLE "+ TABLE_GASTO+"(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_NOMBRE + " TEXT NOT NULL, " +
+                COLUMN_MONTO + " INTEGER NOT NULL, " +
+                COLUMN_FECHA + " DATE NOT NULL)");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Realizar acciones en caso de actualizaciones de la base de datos
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL("DROP TABLE "+ TABLE_GASTO);
     }
-
-    // Método para insertar los datos del presupuesto y la fecha
-    public void insertData(int monto, String fecha) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_MONTO, monto);
-        values.put(COLUMN_FECHA, fecha);
-        db.insert(TABLE_NAME, null, values);
-        db.close();
-    }
-
-    // Otros métodos para actualizar y consultar los datos, según tus necesidades
 }
 
