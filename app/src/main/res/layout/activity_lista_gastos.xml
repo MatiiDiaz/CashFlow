@@ -28,11 +28,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaGastos"
         android:layout_width="match_parent"
-        android:layout_height="366dp"
+        android:layout_height="524dp"
         android:layout_above="@+id/bottomNavigationView"
         android:layout_below="@+id/svListaGastos"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginTop="20dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -63,14 +62,54 @@
 
     <SearchView
         android:id="@+id/svListaGastos"
-        android:layout_width="match_parent"
+        android:layout_width="322dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvListaGastos"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="75dp"
         android:baselineAligned="false" />
+
+    <Spinner
+        android:id="@+id/spn_categorias"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/svListaGastos"
+        android:layout_alignBottom="@+id/svListaGastos"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="2dp"
+        android:entries="@array/categorias_array"
+        android:foregroundGravity="center"
+        android:spinnerMode="dialog" />
+
+    <TextView
+        android:id="@+id/tvMensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/listaGastos"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:text="@string/mensaje_lista_gastos"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/tvMensaje2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/listaGastos"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:text="@string/mensaje_lista_gastos2"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

@@ -1,5 +1,8 @@
 package com.example.cashflow.adaptadores;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cashflow.AnadirGastoActivity;
 import com.example.cashflow.R;
 import com.example.cashflow.entidades.Gasto;
 
@@ -66,6 +70,7 @@ public class ListaGastosAdapter extends RecyclerView.Adapter<ListaGastosAdapter.
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void filtrado(String svListaGasto){
         int longitud = svListaGasto.length();
         if (longitud == 0){
@@ -78,6 +83,22 @@ public class ListaGastosAdapter extends RecyclerView.Adapter<ListaGastosAdapter.
         }
         notifyDataSetChanged();
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filtradoPorCategoria(String categoria) {
+        if (categoria.equals("Todos")) {
+            listaGasto.clear();
+            listaGasto.addAll(listaOriginal);
+        } else {
+            List<Gasto> coleccion = listaOriginal.stream()
+                    .filter(gasto -> gasto.getCategoria_gasto().equals(categoria))
+                    .collect(Collectors.toList());
+            listaGasto.clear();
+            listaGasto.addAll(coleccion);
+        }
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {
@@ -96,6 +117,16 @@ public class ListaGastosAdapter extends RecyclerView.Adapter<ListaGastosAdapter.
             tvMonto = itemView.findViewById(R.id.tvMonto);
             tvFecha = itemView.findViewById(R.id.tvFecha);
             ivGasto = itemView.findViewById(R.id.ivGasto);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, AnadirGastoActivity.class);
+                    intent.putExtra("ID", listaGasto.get(getAdapterPosition()).getId_gasto());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

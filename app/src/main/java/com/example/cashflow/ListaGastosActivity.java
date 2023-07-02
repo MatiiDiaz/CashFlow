@@ -9,10 +9,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.cashflow.adaptadores.ListaGastosAdapter;
 import com.example.cashflow.database.DBGasto;
@@ -23,11 +27,14 @@ import java.util.ArrayList;
 
 public class ListaGastosActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
+    TextView tvMensaje, tvMensaje2;
     ListaGastosAdapter adapter;
     RecyclerView listaGastos;
     ArrayList<Gasto> listaArrayGastos;
     ImageButton btn_add_gasto;
     SearchView svListaGastos;
+    Spinner spn_categorias;
+    String categoriaSeleccionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,8 @@ public class ListaGastosActivity extends AppCompatActivity implements SearchView
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_gastos);
+        tvMensaje = findViewById(R.id.tvMensaje);
+        tvMensaje2 = findViewById(R.id.tvMensaje2);
         btn_add_gasto = findViewById(R.id.btn_add_gasto);
         listaGastos = findViewById(R.id.listaGastos);
         svListaGastos = findViewById(R.id.svListaGastos);
@@ -45,9 +54,41 @@ public class ListaGastosActivity extends AppCompatActivity implements SearchView
 
         DBGasto dbGasto = new DBGasto(ListaGastosActivity.this);
         listaArrayGastos = new ArrayList<>();
+        listaArrayGastos = dbGasto.mostrarGastos();
 
-        adapter = new ListaGastosAdapter(dbGasto.mostrarGastos());
-        listaGastos.setAdapter(adapter);
+        if (listaArrayGastos.isEmpty()) {
+            tvMensaje.setVisibility(View.VISIBLE);
+            svListaGastos.setVisibility(View.INVISIBLE);
+            spn_categorias.setVisibility(View.INVISIBLE);
+        } else {
+            adapter = new ListaGastosAdapter(listaArrayGastos);
+            listaGastos.setAdapter(adapter);
+            tvMensaje.setVisibility(View.INVISIBLE);
+            svListaGastos.setVisibility(View.VISIBLE);
+            spn_categorias = findViewById(R.id.spn_categorias);
+            ArrayAdapter<CharSequence> categoriasAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.categorias_array, android.R.layout.simple_spinner_item);
+            categoriasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spn_categorias.setAdapter(categoriasAdapter);
+            spn_categorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    categoriaSeleccionada = parent.getItemAtPosition(position).toString();
+                    filtrarPorCategoria(categoriaSeleccionada);
+                    Log.d("hola", String.valueOf(listaArrayGastos));
+                    if (listaArrayGastos.isEmpty()){
+                        tvMensaje2.setVisibility(View.VISIBLE);
+                    } else {
+                        tvMensaje2.setVisibility(View.INVISIBLE);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    filtrarPorCategoria("Todos");
+                }
+            });
+        }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_payments);
@@ -104,5 +145,13 @@ public class ListaGastosActivity extends AppCompatActivity implements SearchView
     public boolean onQueryTextChange(String newText) {
         adapter.filtrado(newText);
         return false;
+    }
+
+    private void filtrarPorCategoria(String categoria) {
+        if (categoria.equals("Todos")) {
+            adapter.filtrado(""); // Mostrar todos los datos sin filtrar
+        } else {
+            adapter.filtradoPorCategoria(categoria); // Filtrar por categoría seleccionada
+        }
     }
 }

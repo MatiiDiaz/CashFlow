@@ -82,12 +82,12 @@ public class DBGasto extends DBHelper {
         return gasto;
     }
 
-    public boolean editarGasto(String id, String nombre, String monto, String fecha) {
+    public boolean editarGasto(String id, String nombre, String monto, String fecha, String categoria) {
         boolean correcto = false;
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         try {
-            database.execSQL("UPDATE "+TABLE_GASTO+" SET nombre_gasto = '"+nombre+"', monto_gasto = '"+monto+"', fecha_gasto = '"+fecha+"' WHERE id_gasto ='"+id+"' ");
+            database.execSQL("UPDATE "+TABLE_GASTO+" SET nombre_gasto = '"+nombre+"', monto_gasto = '"+monto+"', fecha_gasto = '"+fecha+"', categoria_gasto = '"+categoria+"' WHERE id_gasto ='"+id+"' ");
             correcto = true;
         } catch (Exception ex) {
             ex.toString();

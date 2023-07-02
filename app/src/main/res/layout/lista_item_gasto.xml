@@ -6,18 +6,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/ivGasto"
             android:layout_width="90dp"
-            android:layout_height="66dp"
+            android:layout_height="match_parent"
             app:srcCompat="@drawable/payments_fill" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView

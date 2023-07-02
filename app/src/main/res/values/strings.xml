@@ -14,7 +14,11 @@
     <string name="nombre_gasto">Nombre Gasto</string>
     <string name="monto_gasto">Monto Gasto</string>
     <string name="guardar">Guardar</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="eliminar">Eliminar</string>
     <string name="seleccionar_categoria">Seleccionar Categoria</string>
+    <string name="mensaje_lista_gastos">No hay datos para mostrar\nIngrese un nuevo dato en el botón de la esquina inferior derecha.</string>
+    <string name="mensaje_lista_gastos2">No hay datos que coincidan con el filtro aplicado.</string>
 
     <!-- Preference Titles -->
     <string name="presupuesto_header">Presupuesto</string>
